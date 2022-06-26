@@ -31,6 +31,7 @@ export function addNS(
   }
 }
 
+// 生成vnode 
 export function h(sel: string): VNode;
 export function h(sel: string, data: VNodeData | null): VNode;
 export function h(sel: string, children: VNodeChildren): VNode;
@@ -48,10 +49,13 @@ export function h(sel: any, b?: any, c?: any): VNode {
     if (b !== null) {
       data = b;
     }
+    // 数组直接设置到children
     if (is.array(c)) {
       children = c;
+      // 如果只是简单类型，设置到text属性中
     } else if (is.primitive(c)) {
       text = c.toString();
+      // 不是数组也不是简单类型，是elm
     } else if (c && c.sel) {
       children = [c];
     }
@@ -63,6 +67,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
     } else if (b && b.sel) {
       children = [b];
     } else {
+      // 引用类型，设置到data
       data = b;
     }
   }
@@ -78,6 +83,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
         );
     }
   }
+  // 处理svg
   if (
     sel[0] === "s" &&
     sel[1] === "v" &&
