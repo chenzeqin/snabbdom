@@ -345,7 +345,6 @@ export function init(
         // // 对比下一级
         patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
 
-        // 新的节点=旧节点，不需要再创建，把新节点（旧节点同个节点）插入到 旧children结束节点位置
         // Vnode moved right
         api.insertBefore(
           parentElm,
@@ -371,10 +370,10 @@ export function init(
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
         }
 
-        // 开始新节点在 旧的children中索引
+        // 开始新节 是否存在 旧的children中索引
         idxInOld = oldKeyToIdx[newStartVnode.key as string];
 
-        // 开始新节点 存在旧的children中
+        // 开始新节点 不存在旧的children中
         if (isUndef(idxInOld)) {
           // New element
           api.insertBefore(
@@ -382,8 +381,9 @@ export function init(
             createElm(newStartVnode, insertedVnodeQueue),
             oldStartVnode.elm!
           );
+          // 新节点 存在旧children中
         } else {
-          // 新节点不在旧children中
+          // 需要移动的节点（在oldCh中）
           elmToMove = oldCh[idxInOld];
           if (elmToMove.sel !== newStartVnode.sel) {
             api.insertBefore(
